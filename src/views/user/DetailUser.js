@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -16,23 +16,25 @@ import backendAPI from '../../backendAPI'
 import { useParams } from 'react-router-dom'
 
 const DetailUser = () => {
-  const [user, setUser] = React.useState(false)
   const { id } = useParams()
-  axios({
-    method: backendAPI.userdetail.method,
-    url: backendAPI.userdetail.url.replace('{id}', id),
-  })
-    .then((res) => {
-      console.log(res.data)
-      setUser(res.data.data)
+  const [user, setUser] = useState(false)
+  useEffect(() => {
+    axios({
+      method: backendAPI.userdetail.method,
+      url: backendAPI.userdetail.url.replace('{id}', id),
     })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response.data)
-      } else {
-        console.log(err)
-      }
-    })
+      .then((res) => {
+        console.log(res.data)
+        setUser(res.data.data)
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.data)
+        } else {
+          console.log(err)
+        }
+      })
+  }, [])
   return (
     <>
       {user && (
@@ -80,7 +82,7 @@ const DetailUser = () => {
                     <CTableRow>
                       <CTableHeaderCell scope="col">Bond </CTableHeaderCell>
                       <CTableHeaderCell scope="col">:</CTableHeaderCell>
-                      <CTableDataCell scope="col">{user.risk_profile.bond_percent} </CTableDataCell>
+                      <CTableDataCell scope="col">{user.risk_profile.bond_percent}</CTableDataCell>
                     </CTableRow>
                     <CTableRow>
                       <CTableHeaderCell scope="col">MM</CTableHeaderCell>
