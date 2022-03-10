@@ -1,5 +1,5 @@
 const backendAPI = {
-  baseURL: 'http://localhost:8011',
+  baseURL: 'http://165.22.55.132:8009',
 
   //endpoint
   login: {
