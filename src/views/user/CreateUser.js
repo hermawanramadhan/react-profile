@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CButton, CForm, CFormInput, CFormLabel } from '@coreui/react'
+import { CAlert, CButton, CForm, CFormInput, CFormLabel } from '@coreui/react'
 import axios from 'axios'
 import backendAPI from '../../backendAPI'
 
@@ -38,6 +38,7 @@ class CreateUser extends React.Component {
       name: '',
       age: 0,
       password: '',
+      success: false,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -60,15 +61,24 @@ class CreateUser extends React.Component {
       .then((res) => {
         console.log(res.data)
         if (res.data) {
-          localStorage.setItem('user', JSON.stringify(res.data.data))
+          this.setState({
+            success: res.data.message,
+            name: '',
+            age: '',
+            password: '',
+          })
+        } else {
+          this.setState({
+            error: res.data.message,
+          })
         }
       })
       .catch((err) => {
-        if (err.response) {
-          console.log(err.response.data)
-        } else {
-          console.log(err)
-        }
+        this.setState({
+          error: err.response.data.message,
+        })
+        console.log('error')
+        console.log(err.response)
       })
   }
 
@@ -81,6 +91,16 @@ class CreateUser extends React.Component {
   render() {
     return (
       <>
+        {this.state.error && (
+          <CAlert color="danger" dismissible>
+            <strong>{this.state.error}</strong>
+          </CAlert>
+        )}
+        {this.state.success && (
+          <CAlert color="success" dismissible>
+            <strong>{this.state.success}</strong>
+          </CAlert>
+        )}
         <CForm onSubmit={this.handleSubmit}>
           <FormInputGroup
             type="text"
