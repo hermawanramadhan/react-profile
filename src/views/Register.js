@@ -39,6 +39,10 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    this.setState({
+      error: false,
+      success: false,
+    })
     let postData = {
       name: this.state.name,
       age: parseInt(this.state.age),

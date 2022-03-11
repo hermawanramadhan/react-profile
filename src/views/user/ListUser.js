@@ -25,7 +25,7 @@ class TableData extends React.Component {
     }
     axios({
       method: backendAPI.userlist.method,
-      url: backendAPI.userlist.url,
+      url: backendAPI.userlist.url + '?limit=100',
     })
       .then((res) => {
         console.log(res.data)

@@ -1,6 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CAlert, CButton, CForm, CFormInput, CFormLabel } from '@coreui/react'
+import {
+  CAlert,
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CRow,
+} from '@coreui/react'
 import axios from 'axios'
 import backendAPI from '../../backendAPI'
 
@@ -47,6 +58,10 @@ class CreateUser extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    this.setState({
+      error: false,
+      success: false,
+    })
     let postData = {
       name: this.state.name,
       age: parseInt(this.state.age),
@@ -90,46 +105,53 @@ class CreateUser extends React.Component {
 
   render() {
     return (
-      <>
-        {this.state.error && (
-          <CAlert color="danger" dismissible>
-            <strong>{this.state.error}</strong>
-          </CAlert>
-        )}
-        {this.state.success && (
-          <CAlert color="success" dismissible>
-            <strong>{this.state.success}</strong>
-          </CAlert>
-        )}
-        <CForm onSubmit={this.handleSubmit}>
-          <FormInputGroup
-            type="text"
-            name="name"
-            label="Name"
-            onChange={this.handleChange}
-            value={this.state.name}
-            autoComplete="off"
-          />
-          <FormInputGroup
-            type="number"
-            name="age"
-            label="Age"
-            onChange={this.handleChange}
-            value={this.state.age}
-          />
-          <FormInputGroup
-            type="password"
-            name="password"
-            label="Password"
-            onChange={this.handleChange}
-            value={this.state.password}
-            autoComplete="new-password"
-          />
-          <CButton type="submit" color="primary">
-            Submit
-          </CButton>
-        </CForm>
-      </>
+      <CCard>
+        <CCardHeader>Create User</CCardHeader>
+        <CCardBody>
+          <CRow>
+            <CCol xs={12}>
+              {this.state.error && (
+                <CAlert color="danger" dismissible>
+                  <strong>{this.state.error}</strong>
+                </CAlert>
+              )}
+              {this.state.success && (
+                <CAlert color="success" dismissible>
+                  <strong>{this.state.success}</strong>
+                </CAlert>
+              )}
+              <CForm onSubmit={this.handleSubmit}>
+                <FormInputGroup
+                  type="text"
+                  name="name"
+                  label="Name"
+                  onChange={this.handleChange}
+                  value={this.state.name}
+                  autoComplete="off"
+                />
+                <FormInputGroup
+                  type="number"
+                  name="age"
+                  label="Age"
+                  onChange={this.handleChange}
+                  value={this.state.age}
+                />
+                <FormInputGroup
+                  type="password"
+                  name="password"
+                  label="Password"
+                  onChange={this.handleChange}
+                  value={this.state.password}
+                  autoComplete="new-password"
+                />
+                <CButton type="submit" color="primary">
+                  Submit
+                </CButton>
+              </CForm>
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
     )
   }
 }
